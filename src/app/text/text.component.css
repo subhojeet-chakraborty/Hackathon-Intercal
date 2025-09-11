@@ -1,0 +1,16 @@
+.text-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.text-btn:hover {
+  background-color: #bfdbfe;
+  transform: scale(1.05);
+}

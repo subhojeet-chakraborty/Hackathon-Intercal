@@ -1,0 +1,16 @@
+.circle-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #fce7f3;
+  color: #be185d;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.circle-btn:hover {
+  background-color: #fbcfe8;
+  transform: scale(1.05);
+}

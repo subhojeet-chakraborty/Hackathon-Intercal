@@ -1,0 +1,27 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.left-sidebar {
+  width: 20%;
+  background-color: #f2f2f2;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+}
+
+.workspace-container {
+  flex: 1;
+  background-color: #e5e5e5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-sidebar {
+  width: 20%;
+  background-color: #f2f2f2;
+  border-left: 1px solid #ccc;
+  padding: 10px;
+}
