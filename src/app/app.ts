@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component , HostListener} from '@angular/core';
 import { CircleComponent } from './circle/circle.component';
 import { TextComponent } from './text/text.component';
 
@@ -46,4 +46,54 @@ export class App {
     (text as any).id = textData.id;
     this.canvas.add(text).setActiveObject(text);
   }
+
+  @HostListener('window:keydown', ['$event'])
+onKeyDown(e: KeyboardEvent) {
+  if (!this.canvas) return;
+
+  const activeObjects = this.canvas.getActiveObjects?.() ?? [];
+  const hasSelection = activeObjects.length > 0;
+
+  // 1) Backspace: delete ONLY an empty active IText (whitespace = empty)
+  if (e.key === 'Backspace') {
+    if (activeObjects.length === 1) {
+      const obj: any = activeObjects[0];
+      if (obj?.type === 'i-text') {
+        // If a real input is focused (not Fabric's hidden textarea), ignore
+        const activeEl = document.activeElement as HTMLElement | null;
+        const hidden = (obj as any).hiddenTextarea as HTMLTextAreaElement | undefined;
+        if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) {
+          if (!hidden || activeEl !== hidden) return;
+        }
+
+        const content = (obj.text ?? '').replace(/\s/g, '');
+        if (content.length === 0) {
+          if (obj.isEditing) obj.exitEditing();
+          this.canvas.remove(obj);
+          this.canvas.discardActiveObject();
+          this.canvas.requestRenderAll();
+          e.preventDefault(); // block browser default
+          return;
+        }
+      }
+    }
+    // If not handled above (e.g., text has content), let Fabric/browser handle Backspace
+    return;
+  }
+
+  // 2) Delete / Escape: remove any selected object(s)
+  if (e.key === 'Delete' || e.key === 'Escape') {
+    if (!hasSelection) return;
+
+    activeObjects.forEach((obj: any) => {
+      if (obj.type === 'i-text' && obj.isEditing) obj.exitEditing();
+      this.canvas.remove(obj);
+    });
+    this.canvas.discardActiveObject();
+    this.canvas.requestRenderAll();
+    e.preventDefault();
+    return;
+  }
+}
+
 }
