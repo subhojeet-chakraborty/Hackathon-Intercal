@@ -1,0 +1,116 @@
+<div class="barcode-card">
+  <h3 class="section-title">Barcode</h3>
+
+  <!-- CREATE SECTION -->
+  <div class="section">
+    <div class="control">
+      <label class="label">Type</label>
+      <div class="segmented">
+        <label class="seg">
+          <input type="radio" name="createType" [(ngModel)]="create.type" value="CODE128" />
+          <span>CODE128</span>
+        </label>
+        <label class="seg">
+          <input type="radio" name="createType" [(ngModel)]="create.type" value="CODE39" />
+          <span>CODE39</span>
+        </label>
+        <label class="seg">
+          <input type="radio" name="createType" [(ngModel)]="create.type" value="EAN13" />
+          <span>EAN-13</span>
+        </label>
+        <label class="seg">
+          <input type="radio" name="createType" [(ngModel)]="create.type" value="UPC" />
+          <span>UPC-A</span>
+        </label>
+        <label class="seg">
+          <input type="radio" name="createType" [(ngModel)]="create.type" value="ITF" />
+          <span>ITF</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="control">
+      <label class="label">Value</label>
+      <input class="input" [(ngModel)]="create.value" (ngModelChange)="validateCreate()"
+             placeholder="e.g. 5901234123457 for EAN-13" />
+      <div class="error" *ngIf="createError">{{ createError }}</div>
+    </div>
+
+    <div class="grid2">
+      <label class="check">
+        <input type="checkbox" [(ngModel)]="create.options.displayValue" />
+        <span>Show text</span>
+      </label>
+
+      <div class="range">
+        <div class="range-label">Bar height: {{create.options.barHeight}}</div>
+        <input type="range" min="40" max="180" [(ngModel)]="create.options.barHeight">
+      </div>
+
+      <div class="range">
+        <div class="range-label">Bar width: {{create.options.barWidth}}</div>
+        <input type="range" min="1" max="4" [(ngModel)]="create.options.barWidth">
+      </div>
+    </div>
+
+    <button class="btn btn-primary" [disabled]="!!createError" (click)="addBarcode()">
+      <span class="btn-icon">▦</span> Add Barcode
+    </button>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- EDIT SECTION (visible when a barcode is selected) -->
+  <div class="section" *ngIf="selected && edit">
+    <h4 class="sub-title">Selected</h4>
+
+    <div class="control">
+      <label class="label">Type</label>
+      <div class="segmented">
+        <label class="seg">
+          <input type="radio" name="editType" [(ngModel)]="edit.type" value="CODE128" (change)="emitUpdate()" />
+          <span>CODE128</span>
+        </label>
+        <label class="seg">
+          <input type="radio" name="editType" [(ngModel)]="edit.type" value="CODE39" (change)="emitUpdate()" />
+          <span>CODE39</span>
+        </label>
+        <label class="seg">
+          <input type="radio" name="editType" [(ngModel)]="edit.type" value="EAN13" (change)="emitUpdate()" />
+          <span>EAN-13</span>
+        </label>
+        <label class="seg">
+          <input type="radio" name="editType" [(ngModel)]="edit.type" value="UPC" (change)="emitUpdate()" />
+          <span>UPC-A</span>
+        </label>
+        <label class="seg">
+          <input type="radio" name="editType" [(ngModel)]="edit.type" value="ITF" (change)="emitUpdate()" />
+          <span>ITF</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="control">
+      <label class="label">Value</label>
+      <input class="input" [(ngModel)]="edit.value" (ngModelChange)="validateEdit(); emitUpdate()" />
+      <div class="error" *ngIf="editError">{{ editError }}</div>
+    </div>
+
+    <div class="grid2">
+      <label class="check">
+        <input type="checkbox" [(ngModel)]="edit.options.displayValue" (change)="emitUpdate()" />
+        <span>Show text</span>
+      </label>
+
+      <div class="range">
+        <div class="range-label">Bar height: {{edit.options.barHeight}}</div>
+        <input type="range" min="40" max="180" [(ngModel)]="edit.options.barHeight" (input)="emitUpdate()">
+      </div>
+
+      <div class="range">
+        <div class="range-label">Bar width: {{edit.options.barWidth}}</div>
+        <input type="range" min="1" max="4" [(ngModel)]="edit.options.barWidth" (input)="emitUpdate()">
+      </div>
+    </div>
+  </div>
+</div>
